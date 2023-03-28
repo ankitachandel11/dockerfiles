@@ -1,0 +1,22 @@
+FROM ubuntu
+LABEL maintainer="Ankita Chandel <ankita.chandel@patdelanalytics.com>"
+LABEL description="Dockerfile install react application."
+MAINTAINER Ankita Chandel <ankita.chandel@patdelanalytics.com>
+RUN apt-get update && apt-get upgrade -y && apt-get install build-essential -y && apt install software-properties-common -y   && apt-get install gnupg2 gcc g++ make wget nano sudo aptitude curl -y
+#Install Times New Roman Font
+RUN apt-get install xfonts-utils cabextract -y &&  wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && dpkg -i ttf-mscorefonts-installer_3.8_all.deb
+#RUN sudo add-apt-repository multiverse && sudo apt update && ACCEPT_EULA=Y apt install ttf-mscorefonts-installer -y && sudo fc-cache -f -v && sudo apt ––reinstall install ttf-mscorefonts-installer -y
+#Install noedjs 18 server & npm install
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash &&  sudo apt-get install -y nodejs && npm install -g npm@9.6.2
+#RUN add-apt-repository ppa:saiarcot895/chromium-beta && sudo apt-get install chromium-browser -y
+#Install google-chrome-stable
+RUN wget --version && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo apt install -y ./google-chrome-stable_current_amd64.deb
+#RUN sudo apt-get update && sudo apt-get upgrade &&  sudo apt --fix-broken install
+WORKDIR /app
+COPY package*.json ./
+EXPOSE 8081
+COPY ./ /app
+RUN npm -v && node -v && npm install --save
+RUN npm install nodemon typescript puppeteer -g
+RUN npm run build
+CMD ["nodemon", "build/server.js"]
