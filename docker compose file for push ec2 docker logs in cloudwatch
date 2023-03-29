@@ -6,8 +6,8 @@ services:
         ports:
             - 8000:8000
         environment:
-            - AWS_ACCESS_KEY_ID="AKIARXHLXFURKPPZQEQE"
-            - AWS_SECRET_ACCESS_KEY="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"
+            - AWS_ACCESS_KEY_ID=""
+            - AWS_SECRET_ACCESS_KEY=""
         logging:
           driver: "awslogs"
           options:
