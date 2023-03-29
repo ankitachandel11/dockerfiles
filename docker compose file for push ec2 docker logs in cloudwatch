@@ -1,0 +1,19 @@
+services:
+    prod_ml:
+        image: 118605950242.dkr.ecr.us-east-1.amazonaws.com/patdelanalytics_prod_repo:ml_monolith_prod
+        container_name: prod_mlmonolith
+        restart: unless-stopped
+        ports:
+            - 8000:8000
+        environment:
+            - AWS_ACCESS_KEY_ID="AKIARXHLXFURKPPZQEQE"
+            - AWS_SECRET_ACCESS_KEY="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"
+        logging:
+          driver: "awslogs"
+          options:
+            awslogs-region: us-east-1
+            awslogs-group: "/EC2/PATDEL_PROD_ML_MONOLITHIC_SERVICE_LOGS"
+            awslogs-stream: PATDEL_PROD_ML_MONOLITHIC_LOGS
+        command: uvicorn --host 0.0.0.0 --port 8000 --log-level debug ml_monolith.main:app            
+# command to run:
+# docker compose -f docker-compose.yml -p prod_mlmonolithic up -d
